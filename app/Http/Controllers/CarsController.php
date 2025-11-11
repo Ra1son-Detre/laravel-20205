@@ -12,12 +12,12 @@ use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Comments\Store as AddComment;
 
-class Cars extends Controller
+class CarsController extends Controller
 {
     public function index()
     {   
         /* $cars = Car::ofActive()->with('brand.country', 'tags')->orderBy('created_at')->get(); */
-        $cars = Car::ofAll(); //тут подготовленный запрос из модели Car
+        $cars = Car::allExceptUnset()->get(); //тут подготовленный запрос из модели Car
         return view('cars.index',compact('cars'));
         /* dd($cars); */
     }

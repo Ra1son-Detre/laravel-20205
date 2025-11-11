@@ -7,8 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Brands\Store as StoreRequest; // as это псевдоним, эти типо Магазин as Магаз что-бы не было путаницы в именах одинаковых
 use App\Http\Requests\Brands\Update as UpdateRequest;
 use App\Models\Country;
+use App\Http\Requests\Comments\Store as AddComment;
 
-class Brands extends Controller
+class BrandsController extends Controller
 {
 
     public function index()
@@ -44,6 +45,20 @@ class Brands extends Controller
     {
         return view('brands.edit', compact('brand'));
         
+    }
+
+    public function addComment(AddComment $request, Brand $brand)
+    {
+       $validated = $request->validated();
+       /* $car->comments()->create([
+        'comment' => $validated['comment'],
+        'author' => $validated['author'] ?? 'Гость',
+       ]); */
+       $brand->comments()->create($validated);
+
+       return redirect()
+       ->route('brands.brandDescription', $brand->id)
+       ->with('success', 'Комментарий успешно добавлен!');
     }
 
    

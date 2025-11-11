@@ -3,29 +3,31 @@
 
 use App\Http\Controllers\Posts;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Cars;
-use App\Http\Controllers\Brands;
+use App\Http\Controllers\CarsController;
+use App\Http\Controllers\BrandsController;
 
 
-Route::get('/cars', [Cars::class, 'index'])->name('cars.showAll'); //вывод на гоавную всех машин
-Route::get('/cars/test', [Cars::class, 'test'])->name('cars.test'); //Тест
-Route::get('/cars/check', [Cars::class, 'check']); //Тест
-Route::get('/cars/create', [Cars::class, 'create'])->name('cars.create'); //Переход на страничку создания
-Route::post('/cars', [Cars::class, 'store'])->name('cars.store'); //Создание новой сущности (просто записи) в базе
-Route::post('/cars/{car}/comment', [Cars::class, 'addComment'])->name('cars.addComment'); //Добавление комментария к машине 
-Route::get('/cars/trash', [Cars::class, 'showTrashCars'])->name('cars.showTrashCars'); //Показ удаленных машин
-Route::put('/cars/{car}/restore', [Cars::class, 'restore'])->name('cars.restore'); //Восстановление 1 машины
-Route::patch('/cars/{car}', [Cars::class, 'update'])->name('cars.update'); //Редактирование 1 записи
-Route::get('/cars/{car}/redaction', [Cars::class, 'redactionById'])->name('cars.redactionById'); //Дубль над чем работаем 
-Route::get('/cars/{car}', [Cars::class, 'show'])->name('cars.showById');
-Route::delete('/cars/{id}/destroyForever', [Cars::class, 'destroyForever'])->name('cars.destroyForever'); //Окончательное удаление 1 машины
-Route::delete('/cars/{car}', [Cars::class, 'destroy'])->name('cars.delete');
+Route::get('/cars', [CarsController::class, 'index'])->name('cars.showAll'); //вывод на гоавную всех машин
+Route::get('/cars/test', [CarsController::class, 'test'])->name('cars.test'); //Тест
+Route::get('/cars/check', [CarsController::class, 'check']); //Тест
+Route::get('/cars/create', [CarsController::class, 'create'])->name('cars.create'); //Переход на страничку создания
+Route::post('/cars', [CarsController::class, 'store'])->name('cars.store'); //Создание новой сущности (просто записи) в базе
+Route::post('/cars/{car}/comment', [CarsController::class, 'addComment'])->name('cars.addComment'); //Добавление комментария к машине 
+Route::get('/cars/trash', [CarsController::class, 'showTrashCars'])->name('cars.showTrashCars'); //Показ удаленных машин
+Route::put('/cars/{car}/restore', [CarsController::class, 'restore'])->name('cars.restore'); //Восстановление 1 машины
+Route::patch('/cars/{car}', [CarsController::class, 'update'])->name('cars.update'); //Редактирование 1 записи
+Route::get('/cars/{car}/redaction', [CarsController::class, 'redactionById'])->name('cars.redactionById'); //Дубль над чем работаем 
+Route::get('/cars/{car}', [CarsController::class, 'show'])->name('cars.showById');
+Route::delete('/cars/{id}/destroyForever', [CarsController::class, 'destroyForever'])->name('cars.destroyForever'); //Окончательное удаление 1 машины
+Route::delete('/cars/{car}', [CarsController::class, 'destroy'])->name('cars.delete');
 
 
 
 
-Route::resource('brands', Brands::class);
-Route::get('/brands/{brand}/description',[Brands::class, 'brandDescription'])->name('brands.brandDescription');
+
+Route::get('/brands/{brand}/description',[BrandsController::class, 'brandDescription'])->name('brands.brandDescription');
+Route::post('/brands/{brand}/comment',[BrandsController::class, 'addComment'])->name('brands.addComment');
+Route::resource('brands', BrandsController::class);
 
 
 

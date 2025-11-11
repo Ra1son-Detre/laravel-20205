@@ -22,6 +22,8 @@
                 </p>
             @endif
         </div>
+        
+        
 
         <div class="card-footer bg-light text-end">
             <a href="{{ route('brands.show', $brand->id) }}" class="btn btn-outline-primary">
@@ -30,5 +32,14 @@
         </div>
     </div>
 </div>
+<form method="post" action="{{route('brands.addComment', $brand->id)}}">
+        @csrf
+        <br>
+       <h3> Комментарий к бренду:</h3>
+        <x-cars.input label="Имя" name="author" placeholder="Не обязательно" />
+        <x-cars.input label="Комментарий" name="comment"  placeholder="Напишите что-нибудь" />
+        <button>Send</button>
+    </form>
+    <x-brands.comment-show :brand="$brand" ></x-brands.comment-show>
 @endsection
 

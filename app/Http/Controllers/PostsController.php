@@ -5,7 +5,7 @@ use App\Models\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class Posts extends Controller
+class PostsController extends Controller
 {
 
     public function index()

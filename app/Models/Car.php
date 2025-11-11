@@ -43,9 +43,15 @@ class Car extends Model
 
     public function scopeOfActive($query)//Базовый запрос, на уровне модели, что-бы контроллеру было проще обращаться и что-бы было меньше кода в контроллере (сложных запросов)
     {
-        return $query->where('status', Status::ACTIVE);
+        return $query->where('status', Status::NOT_SET);
     }
 
+    public function scopeAllExceptUnset($query)
+    {
+    return $query->with(['brand.country', 'tags'])
+                ->where('status', '=', Status::NOT_SET)
+                ->orderByDesc('created_at');
+    }
     
     public function scopeOfAll($query)//Запрос на все 
     {

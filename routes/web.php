@@ -1,10 +1,19 @@
 <?php
 
-
+use App\Http\Controllers\Auth\SessionsController;
 use App\Http\Controllers\Posts;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarsController;
 use App\Http\Controllers\BrandsController;
+
+Route::prefix('/auth')->group(function(){
+    Route::controller(SessionsController::class)->group(function(){
+        Route::get('/login', 'create')->name('auth.session.create');
+        Route::post('/login', 'store')->name('auth.session.store');
+        Route::get('/registr', 'create')->name('auth.register.create');
+        Route::post('/register', 'store')->name('auth.register.store');
+    });
+});
 
 
 Route::get('/cars', [CarsController::class, 'index'])->name('cars.showAll'); //вывод на гоавную всех машин

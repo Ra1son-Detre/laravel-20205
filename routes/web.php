@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\SessionsController;
 use App\Http\Controllers\Posts;
 use Illuminate\Support\Facades\Route;
@@ -14,8 +15,9 @@ Route::prefix('/auth')->group(function(){
         Route::post('/register', 'store')->name('auth.register.store');
     });
 });
+Route::post('/logout', [LogoutController::class, 'store'])->name('logout'); 
 
-
+Route::middleware('auth')->group(function(){
 Route::get('/cars', [CarsController::class, 'index'])->name('cars.showAll'); //вывод на гоавную всех машин
 Route::get('/cars/test', [CarsController::class, 'test'])->name('cars.test'); //Тест
 Route::get('/cars/check', [CarsController::class, 'check']); //Тест
@@ -29,7 +31,7 @@ Route::get('/cars/{car}/redaction', [CarsController::class, 'redactionById'])->n
 Route::get('/cars/{car}', [CarsController::class, 'show'])->name('cars.showById');
 Route::delete('/cars/{id}/destroyForever', [CarsController::class, 'destroyForever'])->name('cars.destroyForever'); //Окончательное удаление 1 машины
 Route::delete('/cars/{car}', [CarsController::class, 'destroy'])->name('cars.delete');
-
+});
 
 
 

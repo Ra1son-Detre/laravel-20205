@@ -7,9 +7,9 @@
                 <a class="btn btn-success btn-sm" href="{{ route('cars.create') }}">Add 🆕 Car</a>
                 <a class="btn btn-outline-secondary btn-sm" href="{{ route('brands.index') }}">Brands 🔖</a>
                 <a class="btn btn-warning btn-sm" href="{{ route('cars.showTrashCars') }}">Trash 🗑️</a>
-                <form action="" method="POST" class="d-inline">
+                <form action="{{route('logout')}}" method="POST" class="d-inline">
                     @csrf
-                    <button type="submit" class="btn btn-danger btn-sm">Logout 🚪</button>
+                    <button type="submit"  class="btn btn-danger btn-sm">Logout 🚪</button>
                 </form>
                 
             @else

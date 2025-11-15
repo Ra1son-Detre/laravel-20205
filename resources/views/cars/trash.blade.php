@@ -10,9 +10,11 @@
     </div>
 @endif
 
+
+@if($trashCars->isNotEmpty())
 <h1 class="mb-4">Trash Cars</h1>
 
-<a href="{{ route('cars.create') }}" class="btn btn-success mb-3">Add Car</a>
+
 
 <div class="list-group">
     @foreach($trashCars as $car)
@@ -40,5 +42,7 @@
         </div>
     @endforeach
 </div>
-
+@else
+<p><em>There are no deleted machines yet.</em></p>
+@endif
 @endsection

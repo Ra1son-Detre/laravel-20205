@@ -124,7 +124,7 @@ class CarsController extends Controller
 
         $trashCar->restore();
 
-        return redirect()->route('cars.showAll')->with('success', __('alerts.cars.restore', ['brand' => $trashCar->brand, 'model' => $trashCar->model]));
+        return redirect()->route('cars.showAll')->with('success', __('alerts.cars.restore', ['brand' => $trashCar->brand->title, 'model' => $trashCar->model]));
     }
 
     public function destroyForever ($id) 
@@ -132,7 +132,7 @@ class CarsController extends Controller
         $car = Car::withTrashed()->findOrFail($id);
         $car->forceDelete();
 
-        return redirect()->route('cars.showTrashCars')->with('success', __('alerts.cars.destroyForever', ['brand'=> $car->brand, 'model'=>$car->model]));
+        return redirect()->route('cars.showTrashCars')->with('success', __('alerts.cars.destroyForever', ['brand'=> $car->brand, 'model'=>$car->model->title]));
     }
 
     public function check() 

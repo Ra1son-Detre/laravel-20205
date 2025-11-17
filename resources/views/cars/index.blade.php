@@ -14,7 +14,7 @@
 
     <h1 class="mb-4">All Cars</h1>
 
-    <a href="{{ route('cars.create') }}" class="btn btn-success mb-3">Add Car</a>
+    <a href="{{ route('admin.cars.create') }}" class="btn btn-success mb-3">Add Car</a>
 
     <div class="list-group">
         @foreach($cars as $car)

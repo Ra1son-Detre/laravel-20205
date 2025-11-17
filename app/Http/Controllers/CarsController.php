@@ -44,7 +44,7 @@ class CarsController extends Controller
         $car->tags()->sync($data->get('tags')); // Привязываем теги к машине через связь many-to-many 
         });
 
-        return redirect()->route('cars.showAll')->with('success', __('alerts.cars.store', ['brand' => $car->brand->title, 'model' => $car->model])); // выводится весь объект Eloquent стоит быть внимательным при выводе 
+        return redirect()->route('admin.cars.showAll')->with('success', __('alerts.cars.store', ['brand' => $car->brand->title, 'model' => $car->model])); // выводится весь объект Eloquent стоит быть внимательным при выводе 
     }
    
     public function show(Car $car)
@@ -81,9 +81,9 @@ class CarsController extends Controller
     {   
         if($car->canDelete) {
         $car->delete();
-        return redirect()->route('cars.showAll')->with('success', __ ('alerts.cars.destroy', ['brand' => $car->brand, 'model' => $car->model]));
+        return redirect()->route('admin.cars.showAll')->with('success', __ ('alerts.cars.destroy', ['brand' => $car->brand, 'model' => $car->model]));
         } else {
-            return  redirect()->route('cars.showById', ['car' => $car])->with('success', __('alerts.cars.errStatusDel' ));
+            return  redirect()->route('admin.cars.showById', ['car' => $car])->with('success', __('alerts.cars.errStatusDel' ));
         }
     }
 
@@ -98,7 +98,7 @@ class CarsController extends Controller
        $car->comments()->create($validated);
 
        return redirect()
-       ->route('cars.showById', $car->id)
+       ->route('admin.cars.showById', $car->id)
        ->with('success', 'Комментарий успешно добавлен!');
     }
 
@@ -124,7 +124,7 @@ class CarsController extends Controller
 
         $trashCar->restore();
 
-        return redirect()->route('cars.showAll')->with('success', __('alerts.cars.restore', ['brand' => $trashCar->brand->title, 'model' => $trashCar->model]));
+        return redirect()->route('admin.cars.showAll')->with('success', __('alerts.cars.restore', ['brand' => $trashCar->brand->title, 'model' => $trashCar->model]));
     }
 
     public function destroyForever ($id) 
@@ -132,17 +132,7 @@ class CarsController extends Controller
         $car = Car::withTrashed()->findOrFail($id);
         $car->forceDelete();
 
-        return redirect()->route('cars.showTrashCars')->with('success', __('alerts.cars.destroyForever', ['brand'=> $car->brand, 'model'=>$car->model->title]));
+        return redirect()->route('admin.cars.showTrashCars')->with('success', __('alerts.cars.destroyForever', ['brand'=> $car->brand, 'model'=>$car->model->title]));
     }
 
-    public function check() 
-    {
-        dd(config('app-cars.transmissions'));
-    }
-
-    public function test() 
-    {
-        
-        return view('cars.test');
-    }
 }

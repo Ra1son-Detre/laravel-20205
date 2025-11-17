@@ -4,9 +4,11 @@
 
         <div class="d-flex gap-2">
             @auth
-                <a class="btn btn-success btn-sm" href="{{ route('cars.create') }}">Add 🆕 Car</a>
-                <a class="btn btn-outline-secondary btn-sm" href="{{ route('brands.index') }}">Brands 🔖</a>
-                <a class="btn btn-warning btn-sm" href="{{ route('cars.showTrashCars') }}">Trash 🗑️</a>
+                @if(auth()->user()->isAdmin())
+                    <a class="btn btn-success btn-sm" href="{{ route('admin.cars.create') }}">Add 🆕 Car</a>
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('brands.index') }}">Brands 🔖</a>
+                    <a class="btn btn-warning btn-sm" href="{{ route('admin.cars.showTrashCars') }}">Trash 🗑️</a>
+                @endif  
                 <form action="{{route('logout')}}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit"  class="btn btn-danger btn-sm">Logout 🚪</button>

@@ -34,13 +34,13 @@
             </div>
         </div>
     </div>
-   
+   @if(auth()->user()->isAdmin())
     <div class="card-footer d-flex justify-content-between align-items-center bg-light">
-        <a href="{{ route('cars.redactionById', $car->id) }}" class="btn btn-outline-primary">
+        <a href="{{ route('admin.cars.redactionById', $car->id) }}" class="btn btn-outline-primary">
             ✏️ Edit Car
         </a>
         @if ($car->canDelete)
-        <form method="POST" action="{{ route('cars.delete', $car->id) }}" onsubmit="return confirm('Are you sure you want to delete {{ $car->model }}?');">
+        <form method="POST" action="{{ route('admin.cars.delete', $car->id) }}" onsubmit="return confirm('Are you sure you want to delete {{ $car->model }}?');">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-outline-danger">
@@ -50,6 +50,7 @@
         @endif
     </div>
 </div>
+@endif
 <form method="post" action="{{route('cars.addComment', $car->id)}}">
         @csrf
         <br>

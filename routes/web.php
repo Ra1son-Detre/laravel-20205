@@ -8,19 +8,45 @@ use App\Http\Controllers\CarsController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\Guest\CarsGuestController;
 use Illuminate\Routing\RouteRegistrar;
+use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 Route::prefix('/auth')->group(function(){
     Route::controller(SessionsController::class)->group(function(){
         Route::get('/login', 'create')->name('auth.session.create');
         Route::post('/login', 'store')->name('auth.session.store');
-        Route::get('/registr', 'create')->name('auth.register.create');
+    });
+});
+
+Route::prefix('/auth')->group(function(){
+    Route::controller(RegisterController::class)->group(function(){
+        Route::get('/register', 'create')->name('auth.register.create');
         Route::post('/register', 'store')->name('auth.register.store');
     });
 });
 
-
 Route::post('/logout', [LogoutController::class, 'store'])->name('logout'); 
 
+Route::middleware('auth')->group(function () {
+    // Страница с просьбой подтвердить email
+    Route::get('/email/verify', function () {
+        return view('auth.email.emailVerify'); // твой файл emailVerify.blade.php
+    })->name('verification.notice');
+
+    // Обработка клика по ссылке из письма (ссылка для подтверждения)
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('cars'); // куда хочешь после подтверждения
+    })->middleware(['signed'])->name('verification.verify');
+
+    // Повторная отправка письма с подтверждением
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Ссылка для подтверждения отправлена повторно!');
+    })->name('verification.send');
+});
 
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function(){
 Route::get('/cars', [CarsController::class, 'index'])->name('admin.cars.showAll'); //вывод на главную всех машин
@@ -36,7 +62,7 @@ Route::delete('/cars/{id}/destroyForever', [CarsController::class, 'destroyForev
 Route::delete('/cars/{car}', [CarsController::class, 'destroy'])->name('admin.cars.delete');
 });
 
-Route::prefix('cars')->middleware('auth')->group(function(){
+Route::prefix('cars')->middleware(['auth', 'verified'])->group(function(){
     Route::controller(CarsGuestController::class)->group(function(){
         Route::get('/', 'index')->name('cars.showAll');
         Route::get('/{car}', 'show')->name('cars.showById');

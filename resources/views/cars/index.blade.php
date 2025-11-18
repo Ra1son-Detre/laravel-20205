@@ -13,9 +13,9 @@
     @endif  Перенес в layouts-->
 
     <h1 class="mb-4">All Cars</h1>
-
+    @if(auth()->user()->isAdmin())
     <a href="{{ route('admin.cars.create') }}" class="btn btn-success mb-3">Add Car</a>
-
+    @endif
     <div class="list-group">
         @foreach($cars as $car)
            <div><a href="{{ route('cars.showById', $car->id) }}" class="list-group-item list-group-item-action">

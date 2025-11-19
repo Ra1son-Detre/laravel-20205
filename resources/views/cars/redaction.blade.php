@@ -10,7 +10,7 @@
     <strong>Price:</strong> ${{ $car->price }}
 </div>
 
-<form method="post" action="{{ route('cars.update', $car->id) }}" class="mb-4">
+<form method="post" action="{{ route('admin.cars.update', $car->id) }}" class="mb-4">
     @csrf
     @method('PATCH')
 

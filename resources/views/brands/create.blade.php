@@ -3,7 +3,7 @@
 @section('content')
 
 <h2>Create brand</h2>
-<form method="post" action="{{route('brands.store')}}">
+<form method="post" action="{{route('admin.brands.store')}}">
     @csrf
     
     <x-cars.input label="Марка авто" name="title" />

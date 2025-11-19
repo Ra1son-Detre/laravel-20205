@@ -14,7 +14,7 @@
     <div class="card-body">
         <div class="row mb-3">
             <div class="col-md-6">
-                <p><strong>Brand:</strong> <a href="{{ route('brands.show', $car->brand) }}" class="btn btn-outline-primary">{{ $car->brand->title }}</a></p>
+                <p><strong>Brand:</strong> <a href="{{ route('admin.brands.show', $car->brand) }}" class="btn btn-outline-primary">{{ $car->brand->title }}</a></p>
                 <p><strong>Model:</strong> {{ $car->model }}</p>
                 <p><strong>Transmission:</strong> {{ ucfirst($car->transmission) }}</p>
                 <p><strong>Status:</strong> {{ ucfirst($car->status->text()) }}</p> 
@@ -59,7 +59,7 @@
         <x-cars.input label="Комментарий" name="comment"  placeholder="Напишите что-нибудь" />
         <button>Send</button>
     </form>
-    <x-cars.comment-show :car="$car" ></x-cars.comment-show>
+    <x-comment-show :model="$car" title="Комментарии к машине:" ></x-comment-show>
 <div class="mt-4">
     <a href="{{ route('cars.showAll') }}" class="btn btn-secondary">⬅️ Back to List</a>
 </div>

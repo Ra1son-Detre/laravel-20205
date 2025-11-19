@@ -2,7 +2,7 @@
     @section('title', 'Create car')
     @section('content')
     <h2>Create car</h2>
-    <form method="post" action="{{route('cars.store')}}">
+    <form method="post" action="{{route('admin.cars.store')}}">
         @csrf
         <x-cars.select 
         name="brand_id" 

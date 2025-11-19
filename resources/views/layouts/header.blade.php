@@ -6,7 +6,7 @@
             @auth
                 @if(auth()->user()->isAdmin())
                     <a class="btn btn-success btn-sm" href="{{ route('admin.cars.create') }}">Add 🆕 Car</a>
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('brands.index') }}">Brands 🔖</a>
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.brands.index') }}">Brands 🔖</a>
                     <a class="btn btn-warning btn-sm" href="{{ route('admin.cars.showTrashCars') }}">Trash 🗑️</a>
                 @endif  
                 <form action="{{route('logout')}}" method="POST" class="d-inline">

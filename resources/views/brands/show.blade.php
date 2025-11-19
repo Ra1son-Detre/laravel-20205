@@ -27,11 +27,11 @@
     @endforeach
 
     <div class="card-footer d-flex justify-content-between align-items-center bg-light">
-        <a href="{{ route('brands.edit', $brand->id) }}" class="btn btn-outline-primary">
+        <a href="{{ route('admin.brands.edit', $brand->id) }}" class="btn btn-outline-primary">
             ✏️ Edit Brand
         </a>
 
-        <form method="POST" action="{{ route('brands.destroy', $brand->id) }}" onsubmit="return confirm('Are you sure you want to delete?');">
+        <form method="POST" action="{{ route('admin.brands.destroy', $brand->id) }}" onsubmit="return confirm('Are you sure you want to delete?');">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-outline-danger">
@@ -43,7 +43,7 @@
 
 {{-- Кнопка назад --}}
 <div class="mt-4">
-    <a href="{{ route('brands.index') }}" class="btn btn-secondary">⬅️ Back to List</a>
+    <a href="{{ route('admin.brands.index') }}" class="btn btn-secondary">⬅️ Back to List</a>
 </div>
 
 @endsection

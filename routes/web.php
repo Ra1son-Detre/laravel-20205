@@ -70,11 +70,11 @@ Route::prefix('cars')->middleware(['auth', 'verified'])->group(function(){
     });
 });
 
-
-Route::get('/brands/{brand}/description',[BrandsController::class, 'brandDescription'])->name('brands.brandDescription');
-Route::post('/brands/{brand}/comment',[BrandsController::class, 'addComment'])->name('brands.addComment');
-Route::resource('brands', BrandsController::class);
-
+Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function(){
+    Route::get('/brands/{brand}/description',[BrandsController::class, 'brandDescription'])->name('admin.brands.brandDescription');
+    Route::post('/brands/{brand}/comment',[BrandsController::class, 'addComment'])->name('admin.brands.addComment');
+    Route::resource('brands', BrandsController::class, ['as'=> 'admin']);
+});
 
 
 

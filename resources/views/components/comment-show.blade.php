@@ -1,13 +1,14 @@
 @props([
     
-    'brand',
+    'model',
+    'title' =>'Комментарии:'
     
 ])
 
-<h3>Комментарии к бренду:</h3>
-    @if($brand->comments->isNotEmpty())
+    @if($model->comments->isNotEmpty())
+    <h3>{{$title}}</h3>
         <ul class="list-group">
-            @foreach($brand->comments->sortByDesc('created_at') as $comment)
+            @foreach($model->comments->sortByDesc('created_at') as $comment)
                 <li class="list-group-item">
                     <strong>{{ $comment->author ?? 'Гость' }}:</strong>
                     <p>{{ $comment->comment }}</p>

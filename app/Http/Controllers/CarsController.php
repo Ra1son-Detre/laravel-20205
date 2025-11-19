@@ -81,7 +81,7 @@ class CarsController extends Controller
     {   
         if($car->canDelete) {
         $car->delete();
-        return redirect()->route('admin.cars.showAll')->with('success', __ ('alerts.cars.destroy', ['brand' => $car->brand, 'model' => $car->model]));
+        return redirect()->route('admin.cars.showAll')->with('success', __ ('alerts.cars.destroy', ['brand' => $car->brand->title, 'model' => $car->model]));
         } else {
             return  redirect()->route('admin.cars.showById', ['car' => $car])->with('success', __('alerts.cars.errStatusDel' ));
         }
@@ -132,7 +132,7 @@ class CarsController extends Controller
         $car = Car::withTrashed()->findOrFail($id);
         $car->forceDelete();
 
-        return redirect()->route('admin.cars.showTrashCars')->with('success', __('alerts.cars.destroyForever', ['brand'=> $car->brand, 'model'=>$car->model->title]));
+        return redirect()->route('admin.cars.showTrashCars')->with('success', __('alerts.cars.destroyForever', ['brand'=> $car->brand->title, 'model'=>$car->model]));
     }
 
 }

@@ -10,12 +10,12 @@
     {{-- Шапка --}}
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
     <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand" href="{{ route('brands.index') }}"> Main 🏠 ®</a>
+        <a class="navbar-brand" href="{{ route('admin.brands.index') }}"> Main 🏠 ®</a>
         
-        <a href="{{ route('cars.showAll') }}" class="btn btn-primary mx-auto">
+        <a href="{{ route('admin.cars.showAll') }}" class="btn btn-primary mx-auto">
         🚘Перейти к машинам🚘
         </a>
-            <a class="nav-link" href="{{ route('brands.create') }}">Add 🆕 Brend </a>
+            <a class="nav-link" href="{{ route('admin.brands.create') }}">Add 🆕 Brend </a>
         </div>
     </nav>
 

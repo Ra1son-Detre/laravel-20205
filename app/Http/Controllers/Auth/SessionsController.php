@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Sessions\Store as LoginRequest;
-
+use App\Providers\RouteServiceProvider;
 
 class SessionsController extends Controller
 {
@@ -17,6 +17,6 @@ class SessionsController extends Controller
     {
         $request->tryAuthUser();
         $request->session()->regenerate();
-        return redirect()->intended('/'); //intended это тот адрес на котоырй пытались зайти, и он запоминается 
+        return redirect()->intended(RouteServiceProvider::HOME); //intended это тот адрес на котоырй пытались зайти, и он запоминается 
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\SessionsController;
 use App\Http\Controllers\Posts;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+
 
 Route::prefix('/auth')->group(function(){
     Route::controller(SessionsController::class)->group(function(){
@@ -32,13 +34,13 @@ Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 Route::middleware('auth')->group(function () {
     // Страница с просьбой подтвердить email
     Route::get('/email/verify', function () {
-        return view('auth.email.emailVerify'); // твой файл emailVerify.blade.php
+        return view('auth.email.emailVerify'); //  emailVerify.blade.php
     })->name('verification.notice');
 
     // Обработка клика по ссылке из письма (ссылка для подтверждения)
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
-        return redirect('cars'); // куда хочешь после подтверждения
+        return redirect('cars'); // переход после подтверждения
     })->middleware(['signed'])->name('verification.verify');
 
     // Повторная отправка письма с подтверждением
@@ -56,13 +58,14 @@ Route::post('/cars/{car}/comment', [CarsController::class, 'addComment'])->name(
 Route::get('/cars/trash', [CarsController::class, 'showTrashCars'])->name('admin.cars.showTrashCars'); //Показ удаленных машин
 Route::put('/cars/{car}/restore', [CarsController::class, 'restore'])->name('admin.cars.restore'); //Восстановление 1 машины
 Route::patch('/cars/{car}', [CarsController::class, 'update'])->name('admin.cars.update'); //Редактирование 1 записи
-Route::get('/cars/{car}/redaction', [CarsController::class, 'admin.redactionById'])->name('admin.cars.redactionById'); //Дубль над чем работаем 
+Route::get('/cars/{car}/redaction', [CarsController::class, 'redactionById'])->name('admin.cars.redactionById'); //Дубль над чем работаем 
 Route::get('/cars/{car}', [CarsController::class, 'show'])->name('admin.cars.showById');
 Route::delete('/cars/{id}/destroyForever', [CarsController::class, 'destroyForever'])->name('admin.cars.destroyForever'); //Окончательное удаление 1 машины
 Route::delete('/cars/{car}', [CarsController::class, 'destroy'])->name('admin.cars.delete');
 });
 
 Route::prefix('cars')->middleware(['auth', 'verified'])->group(function(){
+    Route::get('/account', [Account::class, 'index'])->name('cars.profile');
     Route::controller(CarsGuestController::class)->group(function(){
         Route::get('/', 'index')->name('cars.showAll');
         Route::get('/{car}', 'show')->name('cars.showById');
@@ -76,6 +79,9 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function(){
     Route::resource('brands', BrandsController::class, ['as'=> 'admin']);
 });
 
+Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function(){
+    Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+});
 
 
 

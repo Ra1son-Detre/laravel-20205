@@ -11,12 +11,19 @@ use App\Models\Brand;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Comments\Store as AddComment;
+use App\Services\AddressParser\ParsserInterface;
+use Throwable;
 
 class CarsController extends Controller
 {
-    public function index()
+    public function index(ParsserInterface $addressParser)
     {   
-        /* $cars = Car::ofActive()->with('brand.country', 'tags')->orderBy('created_at')->get(); */
+        /* $dadata = new \Dadata\DadataClient(config('dadata.token'), config('dadata.secret')); */ //? Делаем через 2 уровня env. потом конфиг    
+       
+       /*  $response = $addressParser->clean("address", "мск сухонская 11 89");
+        
+        dd($response); */
+        
         $cars = Car::allExceptUnset()->get(); //тут подготовленный запрос из модели Car
         return view('cars.index',compact('cars'));
         /* dd($cars); */
@@ -49,10 +56,6 @@ class CarsController extends Controller
    
     public function show(Car $car)
     {   
-        
-        /* dd($car->status->text()); */
-        /* $car->load('tags', 'comments'); */ // можно вообще это убрать, в блейде все передается и выводится (магия)
-        /* dd($car->comments()->get()->pluck('comment', 'id')); */
         $comment = $car->comments()->get()->pluck('comment', 'id');
         return view('cars.show', compact('car', 'comment'));
     }
@@ -64,7 +67,7 @@ class CarsController extends Controller
     }
 
   
-    public function update(SaveRequest $request, Car $car) //todo пофиксить и разобраться какого хуя не рабоатет с SaveReauest покопаться в Put и patch
+    public function update(SaveRequest $request, Car $car)
     {
        
        $oldModel = $car->model;
@@ -90,13 +93,10 @@ class CarsController extends Controller
         
     public function addComment(AddComment $request, Car $car)
     {
+       dd($request->checkCommentable());
        $validated = $request->validated();
-       /* $car->comments()->create([
-        'comment' => $validated['comment'],
-        'author' => $validated['author'] ?? 'Гость',
-       ]); */
        $car->comments()->create($validated);
-
+        dd($car);
        return redirect()
        ->route('admin.cars.showById', $car->id)
        ->with('success', 'Комментарий успешно добавлен!');
